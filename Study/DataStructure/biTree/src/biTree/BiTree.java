@@ -130,6 +130,101 @@ public class BiTree {
 		return result;
 	}
 	
+	/*查找算法*/
+	public BiTreeNode searchNode(BiTreeNode T,Object o) {
+		if(T != null) {
+			if(T.data.equals(o)) {
+				return T;
+			}else {
+				BiTreeNode lresult = searchNode(T.lchild, o);
+				return lresult != null ? lresult : searchNode(T.rchild, o);
+			}
+		}
+		return null;
+	}
+	
+	/*结点个数*/
+	/*层次*/
+	public int countNodeLevel(BiTreeNode T) {
+		int count = 0;
+		if(T != null) {
+			LinkQueue L = new LinkQueue();
+			L.offer(T);
+			while(!L.isEmpty()) {
+				T = (BiTreeNode) L.poll();
+				++count;
+				if(T.lchild != null) {
+					L.offer(T.lchild);
+				}
+				if(T.rchild != null) {
+					L.offer(T.rchild);
+				}
+			}
+		}
+		return count;
+	}
+	/*递归*/
+	public int countNodeD(BiTreeNode T) {
+		if(T !=null) {
+			return countNodeD(T.lchild) + countNodeD(T.rchild) + 1;
+		}else {
+			return 0;
+		}
+	}
+	
+	/*深度计算*/
+	public int getDepth(BiTreeNode T) {
+		if(T != null) {
+			int lDepth = getDepth(T.lchild);
+			int rDepth = getDepth(T.rchild);
+			return 1 + (lDepth > rDepth ? lDepth : rDepth);
+		}
+		return 0;
+	}
+	
+	/*是否相等*/
+	public boolean isEqual(BiTreeNode T1,BiTreeNode T2) {
+		if(T1 == null && T2 == null) {
+			return true;
+		}
+		if(T1 != null && T2 != null) {
+			if(T1.data.equals(T2.data)) {
+				if(isEqual(T1.lchild, T2.lchild) && isEqual(T1.rchild, T2.rchild)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/*建立树*/
+	public BiTree(String preOrder,String inOrder,int preIndex,int inIndex,int count){
+		if (count > 0) {
+			char r = preOrder.charAt(preIndex);
+			int i = 0;
+			for (; i < count; i++) {
+				if (r == inOrder.charAt(i + inIndex)) {
+					break;
+				}
+			}
+			root = new BiTreeNode(r);
+			root.lchild = new BiTree(preOrder,inOrder,preIndex+1,inIndex,i).root;
+			root.rchild = new BiTree(preOrder,inOrder,preIndex+i+1,inIndex+i+1,count-i-1).root;
+		}
+	}
+	/*标明空子树*/
+	private int index = 0;
+	public BiTree(String preStr){
+		char c = preStr.charAt(index++);
+		if(c != '#'){
+			root = new BiTreeNode(c);
+			root.lchild = new BiTree(preStr).root;
+			root.rchild = new BiTree(preStr).root;
+		}else{
+			root = null;
+		}
+	}
+
 	public BiTree createTestTree1() {
 		BiTreeNode h = new BiTreeNode('H');
 		BiTreeNode g = new BiTreeNode('G');
