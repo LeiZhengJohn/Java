@@ -13,42 +13,54 @@ public class BiTree {
 	public BiTree(BiTreeNode root){
 		this.root = root;
 	}
+	
+	public BiTreeNode getRoot() {
+		return root;
+	}
 
 	/*µ›πÈÀ„∑®*/
-	public void preRootTraverse(BiTreeNode T){
+	private String result = "";
+	public void setReNone(){
+		this.result = "";
+	}
+	public String preRootTraverse(BiTreeNode T){
 		if(T != null){
-			System.out.print(T.data);
+			result += T.data;
 			preRootTraverse(T.lchild);
 			preRootTraverse(T.rchild);
 		}
+		return result;
 	}
-	public void inRootTraverse(BiTreeNode T){
+	public String inRootTraverse(BiTreeNode T){
 		if(T != null){
 			inRootTraverse(T.lchild);
-			System.out.print(T.data);
+			result += T.data;
 			inRootTraverse(T.rchild);
 		}
+		return result;
 	}
-	public void postRootTraverse(BiTreeNode T){
+	public String postRootTraverse(BiTreeNode T){
 		if(T != null){
 			postRootTraverse(T.lchild);
 			postRootTraverse(T.rchild);
-			System.out.print(T.data);
+			result += T.data;
 		}
+		return result;
 	}
 	
 	/*∑«µ›πÈÀ„∑®*/
-	public void preRootTraverse(){
+	public String preRootTraverse(){
 		BiTreeNode T = root;
+		String result = "";
 		if(T != null){
 			LinkStack S = new LinkStack();
 			S.push(T);
 			while(!S.isEmpty()){
 				T = (BiTreeNode) S.pop();
-				System.out.print(T.data);
+				result += T.data;
 				while(T != null) {
 					if(T.lchild != null) {
-						System.out.print(T.lchild.data);
+						result += T.lchild.data;
 					}
 					if(T.rchild != null) {
 						S.push(T.rchild);
@@ -57,10 +69,12 @@ public class BiTree {
 				}
 			}
 		}
+		return result;
 	}
 	
-	public void inRootTraverse(){
+	public String inRootTraverse(){
 		BiTreeNode T = root;
+		String result = "";
 		if(T != null){
 			LinkStack S = new LinkStack();
 			S.push(T);
@@ -71,15 +85,17 @@ public class BiTree {
 				S.pop();
 				if(!S.isEmpty()) {
 					T = (BiTreeNode) S.pop();
-					System.out.print(T.data);
+					result += T.data;
 					S.push(T.rchild);
 				}
 			}
 		}
+		return result;
 	}
 	
-	public void postRootTraverse(){
+	public String postRootTraverse(){
 		BiTreeNode T = root;
+		String result = "";
 		if(T != null){
 			LinkStack S = new LinkStack();
 			S.push(T);
@@ -93,7 +109,7 @@ public class BiTree {
 				while(!S.isEmpty()){
 					T = (BiTreeNode) S.peek();
 					if(T.rchild == null || T.rchild == p) {
-						System.out.print(T.data);
+						result += T.data;
 						S.pop();
 						p = T;
 						flag = true;
@@ -107,6 +123,7 @@ public class BiTree {
 				}
 			}
 		}
+		return result;
 	}
 	
 	/*≤„¥Œ±È¿˙*/
